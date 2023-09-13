@@ -1,7 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:just_for_rats/providers/auth.dart';
+import 'package:just_for_rats/providers/user.dart';
 import 'package:just_for_rats/widgets/custom_form_field.dart';
+import 'package:provider/provider.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -91,6 +94,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               firstWelcomePage(context),
               secondWelcomePage(context),
               thirdWelcomePage(context),
+              forthWelcomePage(context),
               const Text('Welcome2'),
             ],
           ),
@@ -426,6 +430,25 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           pageController.nextPage(
                               duration: const Duration(milliseconds: 300),
                               curve: Curves.easeIn);
+
+                          Provider.of<Auth>(context, listen: false)
+                              .changeAuth();
+                          Provider.of<User>(context, listen: false)
+                              .registerUser(
+                                  name: _nameController.text,
+                                  age: int.parse(_ageController.text),
+                                  weight: double.parse(_weightController.text),
+                                  height: double.parse(_heightController.text));
+                          Provider.of<User>(context, listen: false)
+                              .setFirstProgram(
+                                  selectedStyle,
+                                  days: selectedStyle == 'Custom'
+                                      ? List.generate(
+                                              _selectedNumOfDays,
+                                              (index) =>
+                                                  daysControllers[index].text)
+                                          .toList()
+                                      : []);
                         }
                       },
                       child: const Row(
@@ -478,6 +501,18 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           size: 14,
         ),
       ],
+    );
+  }
+
+  forthWelcomePage(BuildContext context) {
+    return Padding(
+      padding: _scrrenPadding,
+      child: const Center(
+        child: Text(
+          'Ready to go...',
+          style: TextStyle(fontSize: 22),
+        ),
+      ),
     );
   }
 }

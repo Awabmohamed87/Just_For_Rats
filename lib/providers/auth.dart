@@ -12,6 +12,14 @@ class Auth with ChangeNotifier {
       return;
     } else {
       isFirstTime = prefs.getBool('isFirstTime')!;
+      notifyListeners();
     }
+  }
+
+  changeAuth() async {
+    isFirstTime = false;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isFirstTime', false);
+    notifyListeners();
   }
 }

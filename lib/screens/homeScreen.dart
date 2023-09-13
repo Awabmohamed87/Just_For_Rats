@@ -2,6 +2,10 @@
 
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
+import 'package:just_for_rats/widgets/program_tile.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -50,12 +54,17 @@ class _HomePageState extends State<HomePage> {
             height: double.infinity,
             color: const Color.fromRGBO(0, 0, 0, 0.4),
           ),
-          SingleChildScrollView(
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: Column(
               children: [
                 SizedBox(height: deviceSize.height * 0.015),
                 Row(
                   children: [
+                    Text(
+                      'Exercises',
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
                     const Spacer(),
                     IconButton(
                       onPressed: () {},
@@ -66,7 +75,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ],
-                )
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      itemCount:
+                          Provider.of<User>(context).trainingPrograms.length,
+                      itemBuilder: ((context, index) => ProgramTile())),
+                ),
               ],
             ),
           )

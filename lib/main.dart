@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_for_rats/controllers/db_helper.dart';
 import 'package:just_for_rats/providers/auth.dart';
+import 'package:just_for_rats/providers/user.dart';
 import 'package:just_for_rats/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -9,7 +10,10 @@ import 'screens/homeScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   DBHelper.init();
-  runApp(ChangeNotifierProvider(create: (_) => Auth(), child: const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => Auth()),
+    ChangeNotifierProvider(create: (_) => User()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
